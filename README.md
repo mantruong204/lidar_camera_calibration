@@ -15,7 +15,7 @@ cd ~/ros_workspace/src
 git clone https://github.com/heethesh/lidar_camera_calibration
 
 cd ~/ros_workspace/
-catkin_make
+catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
 ```
 
