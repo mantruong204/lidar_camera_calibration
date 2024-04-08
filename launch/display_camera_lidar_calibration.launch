@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-    <arg name="camera" default="/sensors/camera" />
+    <arg name="camera" default="/webcam_publisher/camera" />
 
     <!-- Play rosbag record -->
     <include file="$(find lidar_camera_calibration)/launch/play_rosbag.launch">
-        <arg name="bagfile" value="2016-11-22-14-32-13_test_updated.bag" />
+        <arg name="bagfile" value="new_afternoon_updated.bag" />
     </include>
 
     <!-- Nodelet manager for this pipeline -->
@@ -29,7 +29,7 @@
         args="load image_proc/rectify lidar_camera_manager --no-bond" >
         
         <!-- Remap input topics -->
-        <remap from="image_mono" to="$(arg camera)/image_color" />
+        <remap from="image_mono" to="$(arg camera)/image_raw" />
         <remap from="camera_info" to="$(arg camera)/camera_info" />
 
         <!-- Remap output topics -->
@@ -42,13 +42,13 @@
         type="static_transform_publisher"
         name="world_velodyne_tf"
         output="screen"
+        args="-0.00091186 -0.09075158 -0.06664682 3.0939427751598942 -0.03359464033115832 -1.5408112700226857 world velodyne" />
         <!-- Fill this with estimated transform X Y Z Y P R -->
-        args="0 0 0 0 0 0 world velodyne" />
 
     <!-- Setup params for Camera-LiDAR calibration script -->
     <param name="camera_info_topic" type="str" value="$(arg camera)/camera_info" />
     <param name="image_color_topic" type="str" value="$(arg camera)/image_rect_color" />
-    <param name="velodyne_points_topic" type="str" value="/sensors/velodyne_points" />
+    <param name="velodyne_points_topic" type="str" value="/velodyne_points" />
     <param name="camera_lidar_topic" type="str" value="$(arg camera)/camera_lidar" />
     <param name="project_mode" type="bool" value="true" />
 
